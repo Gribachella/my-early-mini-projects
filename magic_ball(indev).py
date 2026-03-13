@@ -1,13 +1,40 @@
 from random import choice, randrange, sample
+
+def phrases(phrases):
+    if phrases == 'welcome':
+        return [
+        'Привет, я волшебный шар и я знаю ответ на любой твой вопрос!', 'Волшебный шар на месте, это я-я-я! Задаём вопросы - получаем ответы.',
+        'Я есть волшебный шар, задавай любой интересующий тебя вопрос.'
+        ]
+    
+    elif phrases == 'noname':
+        return ['Ну что ж... не думаю, что имя нам сильно понадобиться.', 'Не хочешь представляться? Будь по-твоему.']
+    
+    elif phrases == "askque":
+        return [
+            'Загляни в бездну правды. О чём твой запрос?', 'Шар видит все... Какую тайну ты хочешь раскрыть сегодня?', 'Давай кратко и по делу.'
+            'Какой бы вопрос ты задал, оказавшись перед богом?', 'Магический шар стих... Что ты хочешь узнать?'
+        ]
+
+def tips():
+    print(
+        f"""\n    {'~' * 12}Магия работает гораздо лучше {chr(128302)}{'~' * 12}
+    1) Если на вопрос можно ответить только "Да" или "Нет".
+    2) Если в вопросе фигурирует только одна мысль.
+    3) Если в вопросе нет туманных формулировок.
+    {'~' * 54}""", end='\n\n'
+    )
+
 def is_valid_digit_answer(answer, scope):
     if answer.isdigit():
         return int(answer) in range(1, scope + 1)
     else:
         return False
     
-def is_valid_string_answer(answer):
+def is_valid_string_answer(answer, format):
     if answer.isalpha():
-        return answer in ['да', 'д', 'lf', 'l', 'y', 'yes', 'da', 'd', 'нет', 'н', 'не', 'net', 'ne', 'ytn', 'yt']
+        if format == 'yesno':
+            return answer in ['да', 'д', 'lf', 'l', 'y', 'yes', 'da', 'd', 'нет', 'н', 'не', 'net', 'ne', 'ytn', 'yt']
     else:
         return False
 
@@ -159,3 +186,20 @@ def captcha():
 
     #print('К сожалению, уважаемый бот, вы не прошли капчу... Увидимся в другой раз!')
     return False
+
+# Начало игры
+print(choice(phrases("welcome")))
+
+print("Как к тебе можно обращаться?")
+
+name = input("Я... ").strip()
+
+while not 1 <= len(name) <= 25 and name != '':
+    name = input("Введите имя или псеводним длиной до 25 символов: ").strip()
+
+if name == '':
+    print(choice(phrases("noname")))
+elif name.lower() in "sasha саша александр олександр саня санек сашенька".split():
+    print(f"Значит тебя зовут {name}... ? А может ты мне блютусик подключишь тогда?...")
+else:
+    print(f"{name}, да? Очень хорошо.")
