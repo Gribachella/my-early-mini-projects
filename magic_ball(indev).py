@@ -21,7 +21,7 @@ def is_valid_captcha_answer(answer):
     return False
 
 def txt_to_leet(txt):
-    crypted_txt = "A 6 B r g e E }|{ 3 u `u K JI M H 0 TT p c m y cp X LL 4 LLI LLL `b bI b € IO 9I".split() + [' ']
+    crypted_txt = "A 6 B r g e `е }|{ 3 u `u K JI M H 0 TT p c m y cp X LL 4 LLI LLL `b bI b € IO 9I".split() + [' ']
     text = "а б в г д е ё ж з и й к л м н о п р с т у ф х ц ч ш щ ъ ы ь э ю я".split() + [' ']
     converted = ''
 
@@ -99,7 +99,7 @@ def captcha():
         else:
             print('Ну что ж... Тогда сейчас расскажу правила и можем приступать.', '\n')
 
-    keys = [randrange(3, 5), randrange(8, 11), randrange(15, 20), randrange(28, 39)]
+    keys = [randrange(3, 5), randrange(8, 11), randrange(17, 21), randrange(30, 39)]
     orig_words = sample(words, keys[int(difficulty) - 1])
 
     if difficulty != "4":
@@ -137,7 +137,7 @@ def captcha():
             return True
         
         elif ' '.join(orig_words).startswith(solution) and not difficulty == '4':
-            orig_words = ' '.join(orig_words).replace(solution, '').strip().split()
+            orig_words = ' '.join(orig_words).replace(solution, '', 1).strip().split()
             leet_words = ' '.join([txt_to_leet(i) for i in orig_words])
             print('\n', f"КАПЧА >>> {leet_words}", '\n', sep='')
             solution = input('Решение: ').strip().lower()
