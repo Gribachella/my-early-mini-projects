@@ -98,7 +98,7 @@ def phrases(phrases, name=''):
             'Эфир очистился от твоего присутствия. Связь разорвана.'
         ]
 
-# Рекомендации к постановке наиболее корректного вопроса шару
+# Рекомендации по постановке наиболее удачного вопроса волшебному шару
 def tips():
     print(
         f"""\n    {'~' * 12}Магия работает гораздо лучше {chr(128302)}{'~' * 12}
@@ -108,14 +108,14 @@ def tips():
     {'~' * 55}""", end='\n\n'
     )
 
-# Валидация вопросов предполагающих цифровой (численный) ответ
+# Валидация ответов предполагающих цифровой (численный) формат
 def is_valid_digit_answer(answer, scope):
     if answer.isdigit():
         return int(answer) in range(1, scope + 1)
     else:
         return False
 
-# Валидация вопросов предполагающих буквенно-символьный ответ
+# Валидация ответов предполагающих буквенно-символьный формат
 def is_valid_string_answer(answer, format='yesno'):
     if answer.isalpha():
         if format == 'yesno':
@@ -296,15 +296,15 @@ def captcha():
 
     return False
 
-# Ф-ия  основого алгоритма игры; Возвращает либо True, либо False
+# Ф-ия  основого алгоритма игры; возвращает либо True, либо False
 def the_game():
     sym = "🔮:"
-    trigger_num2 = randrange(3)
+    trigger_num2 = randrange(4)
     
     print(sym, choice(phrases("askque")))
     answer = input('Ваш вопрос: ')
 
-    if trigger_num2 == 1:  # Если затригерится ивент касательно уверенности пользователя узнать ответ на ранее поставленный им вопрос
+    if trigger_num2 == 1:  # Если затригерится ивент об уверенности пользователя узнать ответ на ранее поставленный им вопрос (шанс 25%)
         print()
         print(sym, choice(phrases('asking_again_about_ask')))
         answer = input("'д' - да; 'н' - нет, хочу задать другой вопрос: ").strip().lower()
@@ -369,12 +369,12 @@ print(sym, choice(phrases("welcome")))
 
 name = get_username()
 
-if name == '':
-    print(sym, choice(phrases("noname")))
-else:
+if name:
     print(sym, choice(phrases("nickname", name)))
+else:
+    print(sym, choice(phrases("noname")))
 
-if trigger_num1 == 0:  # Если затригериться ивент на капчу
+if trigger_num1 == 0:  # Если затригериться ивент на капчу (Шанс - 50%)
     print()
     print(sym, choice(phrases("dota")))
     answer = input("Возможные ответы 'д' - да; 'н' - нет: ").strip().lower()
