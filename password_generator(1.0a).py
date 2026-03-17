@@ -394,4 +394,5 @@ while True:
         input()
 
     else:
+        clear_console()
         exit()
