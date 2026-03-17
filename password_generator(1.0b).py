@@ -1,4 +1,5 @@
-from random import shuffle, choice
+from secrets import choice
+from random import shuffle
 from os import system, name
 from sys import exit
 
