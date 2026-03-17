@@ -158,7 +158,9 @@ def add_user_charset(user_charset, charset):
         if len(processed_charset) <= 1:
             continue
 
-        if list(processed_charset) in charset or list(processed_charset) in user_charset:
+        proced_charset = list(processed_charset)
+
+        if is_charset_in_alphabet(proced_charset, charset + user_charset):
             clear_console()
             print("Такой набор символов уже есть в алфавите пароля.")
             input('>>> ')
@@ -185,7 +187,7 @@ def edit_user_charset(user_charset_index, user_charset, charset):
 
         proced_charset = list(processed_charset)
 
-        if (proced_charset in user_charset or proced_charset in charset) and proced_charset != user_charset_index:
+        if is_charset_in_alphabet(proced_charset, charset + user_charset) and proced_charset != user_charset_index:
             clear_console()
             print("Такой набор символов уже есть в алфавите пароля.")
             input('>>> ')
@@ -217,6 +219,16 @@ def get_user_charset(user_charset, charset):
             user_charset[int(answer) - 2] = edit_user_charset(user_charset[int(answer) - 2], user_charset, charset)
             if not user_charset[int(answer) - 2]:
                 user_charset.remove([])
+
+def is_charset_in_alphabet(curr_set, gen_charset):
+    sorted_charset = []
+    curr_set.sort()
+
+    for el in gen_charset:
+        el.sort()
+        sorted_charset.append(el)
+
+    return curr_set in sorted_charset
 
 # Ф-ия, в которой пользователь выбирает набор символов для пароля и может предложить свой набор
 def get_password_charset(charset, ambiguous_include, space_include, user_charset):
