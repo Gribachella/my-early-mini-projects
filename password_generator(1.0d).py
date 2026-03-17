@@ -229,7 +229,7 @@ def get_password_charset(charset, ambiguous_include, space_include, user_charset
 
     while True:
         combine = charset + user_charset
-        full_combine = get_processed_alphabet(combine, 'full')
+        full_combine = get_processed_alphabet(charset + user_charset, 'full')
         clear_console()
 
         tips('alphabet')
@@ -272,6 +272,8 @@ def get_password_charset(charset, ambiguous_include, space_include, user_charset
             user_charset = get_user_charset(user_charset, charset)
         elif answer == "9":
             return charset, ambiguous_include, space_include, user_charset
+
+        full_combine = get_processed_alphabet(charset + user_charset, 'full')
 
         if not (charset + user_charset):
             space_include, ambiguous_include = False, False
