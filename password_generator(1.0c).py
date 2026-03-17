@@ -16,7 +16,7 @@ def get_password(length, charset, user_charset, ambiguous, ambiguous_include, sp
             finally_password_alphabet += sym
 
     if space_include:
-        finally_password_alphabet += [' ']
+        finally_password_alphabet += ' '
 
     shuffle(finally_password_alphabet)
 
@@ -272,7 +272,7 @@ def get_password_charset(charset, ambiguous_include, space_include, user_charset
         elif answer == "9":
             return charset, ambiguous_include, space_include, user_charset
 
-        if not charset:
+        if not charset + user_charset:
             space_include, ambiguous_include = False, False
         else:
             for c in ambiguous:
@@ -387,6 +387,12 @@ while True:
     elif answer == '3':
         password_quantity = get_password_quantity()
     elif answer == '4':
+        if not charset + user_charset:
+            clear_console()
+            print("Алфавит пароля не может быть пустым: добавьте свой набор символов или выберете предложенные наборы.", end='\n\n')
+            input('>>> ')
+            continue
+
         clear_console()
         for i in range(password_quantity):
             password = get_password(password_len, charset, user_charset, ambiguous, ambiguous_include, space_include)
