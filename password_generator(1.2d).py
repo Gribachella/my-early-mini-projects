@@ -4,7 +4,7 @@ from os import system, name
 from sys import exit
 from math import log2
 
-# Ф-ия принимает выбранный пользователем алфавит и длину пароля, генерирует и возвращает пароль
+# Ф-ия принимает полный список наборов символов, генерирует и возвращает список наборов символов включающих только уникальные символы
 def get_uniq_charsets(charset, user_charset):
     combine = [i.copy() for i in charset] + [j.copy() for j in user_charset]
     uniq_charsets = []
