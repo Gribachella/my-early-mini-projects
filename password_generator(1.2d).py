@@ -26,6 +26,7 @@ def get_uniq_charsets(charset, user_charset):
 
     return uniq_charsets
 
+# Функция генерации пароля + проверка на предмет содержания в пароле максимально возможного количества символов из уникальных групп символов
 def get_password(length, charset, user_charset, ambiguous, ambiguous_include, space_include):
     uniq_charsets = get_uniq_charsets(charset, user_charset)
     full_password_alphabet = ''.join(get_processed_alphabet(uniq_charsets, 'full'))
@@ -155,6 +156,7 @@ def is_valid_string_answer(answer, format='yesno'):
     else:
         return False
 
+# Ф-ия используемая в ф-ии get_password_charset() для включения или выключения из основного списка наборов символов
 def filter_charset(charset, set):
     digits = [str(n) for n in range(0, 10)]
     lowercase_letters = [chr(c) for c in range(97, 123)]
@@ -180,6 +182,7 @@ def filter_charset(charset, set):
 
     return charset
 
+# Ф-ия добавления в пользовательский список наборов символов свой набор символов
 def add_user_charset(user_charset, charset):
     while True:
         clear_console()
@@ -205,6 +208,7 @@ def add_user_charset(user_charset, charset):
 
         return list(processed_charset)
 
+# Ф-ия редактирования набора символов в пользовательском списке наборов символов
 def edit_user_charset(user_charset_index, user_charset, charset):
     while True:
         clear_console()
@@ -232,6 +236,7 @@ def edit_user_charset(user_charset_index, user_charset, charset):
 
         return proced_charset
 
+# Меню взаимодействия пользователя с пользовательским списком наборов символов
 def get_user_charset(user_charset, charset):
     while True:
         charsets_list = get_processed_alphabet(user_charset, 'short').split()
@@ -257,6 +262,7 @@ def get_user_charset(user_charset, charset):
             if not user_charset[int(answer) - 2]:
                 user_charset.remove([])
 
+# Ф-ия проверяет есть ли в полном (пользоватльский + основной) списке наборов символов набор символов переданный в первый параметр ф-ии
 def is_charset_in_alphabet(curr_set, gen_charset):
     curr_set_copy = sorted(curr_set)
     gen_charset_copy = [sorted(cs) for cs in gen_charset]
@@ -359,6 +365,7 @@ def get_password_length():
         else:
             return passlen
 
+# Ф-ия возвращает количество генерируемых паролей
 def get_password_quantity():
     while True:
         clear_console()
@@ -389,6 +396,7 @@ def get_processed_alphabet(alpha, what_to_return='both'):
     elif what_to_return == 'short':
         return shortened_alpha
 
+# Ф-ия возвращает строку в соответствии с значением показателя энтропии пароля, используется только в главном меню
 def get_entropy_case(length, alphabet):
     entropy = round(length * log2(len(alphabet)), 2)
 
@@ -403,6 +411,7 @@ def get_entropy_case(length, alphabet):
     else:
         return 'Гровероустойчивый пароль'
 
+# Главное меню программы
 def main_menu(length, charset, user_charset, quantity):
     clear_console()
 
@@ -435,17 +444,19 @@ def main_menu(length, charset, user_charset, quantity):
     print('5) Выход')
     print('=' * 79)
 
+# Инициализация начальных переменных: динамичных (параметры пароля) и статичных (наборы символов)
 digits = [str(n) for n in range(0, 10)]
 lowercase_letters = [chr(c) for c in range(97, 123)]
 uppercase_letters = [chr(c) for c in range(65, 91)]
 spec_chars = list('!#$%&*+-=?@^_')
 ambiguous = list('0Ooi1lI')
+
 ambiguous_include, space_include = True, False
 user_charset = []
-
 charset = [digits, lowercase_letters, uppercase_letters, spec_chars]
 password_len, password_quantity = 14, 5
 
+# Основной цикл программы
 while True:
     main_menu(password_len, charset, user_charset, password_quantity)
 
