@@ -144,7 +144,10 @@ def tips(option):
 # Ф-ия валидации пользовательского ввода, в вопросах предполагаюших численный ответ
 def is_valid_digit_answer(answer, x1, x2):
     if answer.isdigit():
-        return int(answer) in range(x1, x2 + 1)
+        if len(answer) != 1 and answer[0] == "0":
+            return False
+        else:
+            return int(answer) in range(x1, x2 + 1)
     else:
         return False
 
