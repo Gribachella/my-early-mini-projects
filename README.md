@@ -1,7 +1,7 @@
 Привет! В этом репозитории находятся мои первые мини-проекты, которые я написал 
-на питоне в рамках окончания курса "[Python Generation: course for beginners](https://stepik.org/course/58852)". 
-Для того чтобы начать играть нужно скачать питон с [официального сайта](https://www.python.org/downloads/) и 
-запустить нужный .py файл
+на питоне в рамках окончания курса "[Python Generation: course for beginners](https://stepik.org/course/58852)".
+Для того чтобы начать играть нужно скачать 
+питон с [официального сайта](https://www.python.org/downloads/) и запустить нужный .py файл
 
 ---
 
