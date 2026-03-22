@@ -63,11 +63,19 @@ def is_valid_digit_answer(answer, x1, x2):
         else:
             return int(answer) in range(x1, x2 + 1)
     elif x1 == "any" and x2 == "any":
-        if only_num_and_minus(answer):
-            if (answer[0] == "0" and len(answer) != 1) or (answer[0] == "-" and answer[1] == "0"):
-                return False
-            elif (answer.count("-") == 1 and answer[0] == '-') or (answer.count("-") == 0):
-                return True
+        if only_num_and_minus(answer) and answer:
+            if ("-" in answer) and answer.count("-") == 1 and answer.startswith("-"):
+                if answer[1] == "0" and len(answer[1:]) != 1:
+                    return False
+                else:
+                    return True
+                
+            elif "-" not in answer:
+                if answer[0] == "0" and len(answer) != 1:
+                    return False
+                else:
+                    return True
+                
             else:
                 return False
         else:
@@ -271,7 +279,7 @@ while True:
 
     while True:
         clear_console()
-        print('Хотите еще раз воспользовать программой? (д = да; н = нет)')
+        print('Хотите еще раз воспользовать программой? (д = да; н = нет)', end='\n\n')
         answer = input('>>> ').strip().lower()
 
         if not is_valid_string_answer(answer):
