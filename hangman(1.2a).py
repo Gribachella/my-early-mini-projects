@@ -391,7 +391,12 @@ def play_the_game(word, game_duration, hint_status, hint, frst_and_lst_letters_s
         if fin_word == word or attempts == 11:
             the_game_is_over = True
 
-        print(f"{'═' * 16}╦{'═' * (35 - len(curr_streak_status) + 2)}╣{curr_streak_status}╠═")
+        if len(curr_streak_status) >= 3:
+            streak_str_len = int(len(curr_streak_status) * 1.5)
+        else:
+            streak_str_len = len(curr_streak_status)
+
+        print(f"{'═' * 16}╦{'═' * (37 - streak_str_len)}╣{curr_streak_status}╠═")
         print(a, (f"{'Подсказка: ' + hint}" if hint_status else f"Слово: {' '.join(fin_word)}") if not the_game_is_over else "Вы победили!" if full_word_win or fin_word == word else "Вы проиграли.")
         print(b)
         print(c, (f"Слово: {' '.join(fin_word)}" if hint_status else "") if not the_game_is_over else "")
@@ -399,7 +404,7 @@ def play_the_game(word, game_duration, hint_status, hint, frst_and_lst_letters_s
         print(e, (f"Ошибки: {', '.join(mistakes)}" if hint_status else "") if not the_game_is_over else "")
         print(f)
         print(g, f"Осталось попыток: {11 - attempts}" if not the_game_is_over else "")
-        print('═' * 16, '╩', '═' * 41, sep='')
+        print('═' * 16, '╩', '═' * 42, sep='')
 
         answer = input('>>> ').strip().lower()
 
@@ -427,6 +432,18 @@ def play_the_game(word, game_duration, hint_status, hint, frst_and_lst_letters_s
             clear_console()
             print("НЕКОРРЕКТНЫЙ ВВОД: Только буквы из русского алфавита (+ 'ё')!", end='\n\n')
             input(">>> ")
+            continue
+
+        not_ru_letters_in = False
+        for c in answer:
+            if c not in ru_low_letters:
+                clear_console()
+                print("НЕКОРРЕКТНЫЙ ВВОД: Только буквы из русского алфавита (+ 'ё')!", end='\n\n')
+                input(">>> ")
+                not_ru_letters_in = True
+                break
+        
+        if not_ru_letters_in:
             continue
 
         if len(answer) == 1:
