@@ -309,8 +309,44 @@ def get_processed_word(word, letters_list, frst_and_lst_letters_status):  # В �
         processed_word = word[0] + processed_word[1:-1] + word[-1]
 
     return processed_word
+
+def get_streak_status(points):
+    streak_visual = [
+    'Ｆ🦠', 'Ｅ🐛', 'Ｄ🦋',
+    'Ｃ🐀', 'Ｂ🐈', 'Ａ🐅', 
+    'Ｓ🦏', 'ＳＳ🐘', 'ＳＳＳ🦖',
+    'Ｘ🦄', 'Ｙ🐉', 'Ｚ🧑'
+    ]
+
+    if points < 3.5:
+        return streak_visual[0]
+    elif points <= 6:
+        return streak_visual[1]
+    elif points <= 8.5:
+        return streak_visual[2]
     
-def play_the_game(word, game_duration, hint_status, hint, frst_and_lst_letters_status):
+    elif points <= 12.5:
+        return streak_visual[3]
+    elif points <= 16.5:
+        return streak_visual[4]
+    elif points <= 20.5:
+        return streak_visual[5]
+    
+    elif points <= 27:
+        return streak_visual[6]
+    elif points <= 35:
+        return streak_visual[7]
+    elif points <= 44.5:
+        return streak_visual[8]
+    
+    elif points <= 56:
+        return streak_visual[9]
+    elif points <= 69.5:
+        return streak_visual[10]
+    elif points <= 83.5:
+        return streak_visual[11]
+
+def play_the_game(word, game_duration, hint_status, hint, frst_and_lst_letters_status, points):
     ru_low_letters = [chr(i) for i in range(1072, 1104)] + ['ё']
     correct_letters = []
     mistakes = []
@@ -326,11 +362,17 @@ def play_the_game(word, game_duration, hint_status, hint, frst_and_lst_letters_s
         clear_console()
         a, b, c, d, e, f, g = get_hangman(attempts)
         fin_word = get_processed_word(word, correct_letters, frst_and_lst_letters_status)
+        curr_streak_status = get_streak_status(points)
+        
+        unknowns_letters = ''
+        for i in range(len(word)):
+            if word[i] not in fin_word[i] and word[i] not in unknowns_letters:
+                unknowns_letters += word[i]
 
         if fin_word == word or attempts == 11:
             the_game_is_over = True
 
-        print('═' * 16, '╦', '═' * 38, sep='')
+        print(f"{'═' * 16}╦{'═' * (34 - len(curr_streak_status) + 2)}╣{curr_streak_status}╠═")
         print(a, (f"{'Подсказка: ' + hint}" if hint_status else f"Слово: {' '.join(fin_word)}") if not the_game_is_over else "Вы победили!" if full_word_win or fin_word == word else "Вы проиграли.")
         print(b)
         print(c, (f"Слово: {' '.join(fin_word)}" if hint_status else "") if not the_game_is_over else "")
@@ -338,12 +380,21 @@ def play_the_game(word, game_duration, hint_status, hint, frst_and_lst_letters_s
         print(e, (f"Ошибки: {', '.join(mistakes)}" if hint_status else "") if not the_game_is_over else "")
         print(f)
         print(g, f"Осталось попыток: {11 - attempts}" if not the_game_is_over else "")
-        print('═' * 16, '╩', '═' * 38, sep='')
+        print('═' * 16, '╩', '═' * 41, sep='')
 
         answer = input('>>> ').strip().lower()
 
         if the_game_is_over:
-            break
+            if full_word_win:
+                if len(unknowns_letters) >= 2:
+                    return 1
+                else:
+                    return 2
+            elif fin_word == word:
+                return 2
+            else:
+                return 3
+
         elif not is_valid_string_answer(answer, "game", word):
             clear_console()
             input("НЕКОРРЕКТНЫЙ ВВОД: Допустимым ответом является 1 буква, либо же \nнабор букв равный длине загаданного слова. Буквы из русского алфавита. \n\n>>> ")
@@ -379,16 +430,35 @@ game_duration = True  # True - Обычная игра; False - Долгая и�
 hint_status = False
 frst_and_lst_letters_status = False
 completed_words = []
+points = 0
 
 while True:
     game_duration, hint_status, frst_and_lst_letters_status = before_game_menu(game_duration, hint_status, frst_and_lst_letters_status)
+
+    configuration_sum = (hint_status + frst_and_lst_letters_status + (not game_duration))
+
+    if configuration_sum == 3:
+        adding = 1
+    elif configuration_sum == 2:
+        adding = 1.25
+    elif configuration_sum == 1:
+        adding = 1.5
+    else:
+        adding = 1.75
 
     while True: 
         word, hint = get_word(completed_words)
         completed_words += [word]
 
-        play_the_game(word, game_duration, hint_status, hint, frst_and_lst_letters_status)
+        result = play_the_game(word, game_duration, hint_status, hint, frst_and_lst_letters_status, points)
 
+        if result == 1:
+            points += adding * 2
+        elif result == 2:
+            points += adding
+        else:
+            points = 0
+            
         user_choice = after_game()
 
         if user_choice == 1:
