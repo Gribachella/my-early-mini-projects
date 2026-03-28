@@ -334,11 +334,10 @@ def get_streak_status(points):
     'Ｃ🐀', 'Ｂ🐈', 'Ａ🐅', 
     'Ｓ🦏', 'ＳＳ🐘', 'ＳＳＳ🦖',
     'Ｘ🦄', 'Ｙ🐉', 'Ｚ🧑'
-    'Ω🔢'
     ]
     
 
-    if points < 3.5:
+    if points <= 3.5:
         return streak_visual[0]
     elif points <= 6:
         return streak_visual[1]
