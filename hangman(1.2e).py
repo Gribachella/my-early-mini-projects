@@ -224,6 +224,7 @@ def get_word(completed_words_list):
                 cnt += 1
 
     while [] in categories:
+        del hints[categories.index([])]
         categories.remove([])
     # ------------------------------------------
 
