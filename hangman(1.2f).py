@@ -478,11 +478,11 @@ while True:
     if configuration_sum == 3:
         adding = 1
     elif configuration_sum == 2:
-        adding = 1.25
+        adding = 1.33
     elif configuration_sum == 1:
-        adding = 1.5
+        adding = 1.66
     else:
-        adding = 1.75
+        adding = 2
 
     while True: 
         word, hint = get_word(completed_words)
